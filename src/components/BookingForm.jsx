@@ -11,13 +11,17 @@ export default function BookingForm(){
   }
 
   const API_BASE = import.meta.env.VITE_API_URL ?? ''
+  const isAmplifyHost = typeof window !== 'undefined' && window.location.host.includes('amplifyapp.com')
 
   async function onSubmit(e){
     e.preventDefault()
     setLoading(true)
     setStatus(null)
     try{
-      const res = await fetch(`${API_BASE}/api/bookings`, {
+      const url = `${API_BASE}/api/bookings`
+      // helpful debug log
+      console.debug('Submitting booking to', url)
+      const res = await fetch(url, {
         method: 'POST',
         headers: { 'Content-Type':'application/json' },
         body: JSON.stringify(form)
@@ -27,10 +31,18 @@ export default function BookingForm(){
         setStatus({ type:'success', message:'Booking received! We will contact you.' })
         setForm({ name:'', email:'', date:'', time:'', people:2, notes:'' })
       }else{
-        setStatus({ type:'error', message: data.error || 'Failed to submit' })
+        // show helpful error including URL and server message
+        setStatus({ type:'error', message: `Server error: ${data.error || data.message || res.statusText}` })
+        console.error('Booking failed', { url, status: res.status, body: data })
       }
     }catch(err){
-      setStatus({ type:'error', message: 'Network error' })
+      // if running on Amplify and no API_BASE provided, show a more specific hint
+      if(isAmplifyHost && !API_BASE){
+        setStatus({ type:'error', message: 'Network error: frontend is hosted on Amplify but VITE_API_URL is not set. Set VITE_API_URL in Amplify env vars and redeploy.' })
+      }else{
+        setStatus({ type:'error', message: `Network error: ${err.message}` })
+      }
+      console.error('Network error when submitting booking', err)
     }finally{
       setLoading(false)
     }

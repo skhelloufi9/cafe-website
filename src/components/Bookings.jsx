@@ -6,17 +6,25 @@ export default function Bookings(){
   const [error, setError] = useState(null)
 
   const API_BASE = import.meta.env.VITE_API_URL ?? ''
+  const isAmplifyHost = typeof window !== 'undefined' && window.location.host.includes('amplifyapp.com')
 
   async function load(){
     setLoading(true)
     setError(null)
     try{
-      const res = await fetch(`${API_BASE}/api/bookings`)
+      const url = `${API_BASE}/api/bookings`
+      console.debug('Fetching bookings from', url)
+      const res = await fetch(url)
       if(!res.ok) throw new Error(`${res.status} ${res.statusText}`)
       const data = await res.json()
       setBookings(data || [])
     }catch(err){
-      setError(err.message || 'Failed to load')
+      if(isAmplifyHost && !API_BASE){
+        setError('Amplify build used no VITE_API_URL. Set VITE_API_URL and redeploy the frontend.')
+      }else{
+        setError(err.message || 'Failed to load')
+      }
+      console.error('Failed to fetch bookings', err)
     }finally{
       setLoading(false)
     }
