@@ -9,6 +9,7 @@ export default function Header(){
           <a href="#">Home</a>
           <a href="#menu">Menu</a>
           <a href="#contact">Contact</a>
+          <a href="#bookings">Bookings</a>
         </nav>
       </div>
     </header>

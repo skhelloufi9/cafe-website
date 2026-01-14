@@ -2,6 +2,7 @@ import React from 'react'
 import Header from './components/Header'
 import Menu from './components/Menu'
 import BookingForm from './components/BookingForm'
+import Bookings from './components/Bookings'
 import Footer from './components/Footer'
 
 export default function App() {
@@ -15,6 +16,7 @@ export default function App() {
         </section>
         <Menu />
         <BookingForm />
+        <Bookings />
       </main>
       <Footer />
     </div>
