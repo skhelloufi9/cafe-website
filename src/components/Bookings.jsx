@@ -5,11 +5,13 @@ export default function Bookings(){
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
 
+  const API_BASE = import.meta.env.VITE_API_URL ?? ''
+
   async function load(){
     setLoading(true)
     setError(null)
     try{
-      const res = await fetch('/api/bookings')
+      const res = await fetch(`${API_BASE}/api/bookings`)
       if(!res.ok) throw new Error(`${res.status} ${res.statusText}`)
       const data = await res.json()
       setBookings(data || [])

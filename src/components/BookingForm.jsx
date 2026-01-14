@@ -10,12 +10,14 @@ export default function BookingForm(){
     setForm(prev => ({ ...prev, [name]: value }))
   }
 
+  const API_BASE = import.meta.env.VITE_API_URL ?? ''
+
   async function onSubmit(e){
     e.preventDefault()
     setLoading(true)
     setStatus(null)
     try{
-      const res = await fetch('/api/bookings', {
+      const res = await fetch(`${API_BASE}/api/bookings`, {
         method: 'POST',
         headers: { 'Content-Type':'application/json' },
         body: JSON.stringify(form)

@@ -18,5 +18,25 @@
     "people": 2,
     "notes": "It's my birthday, please could you surpise my guest",
     "createdAt": "2026-01-14T14:23:54.687Z"
+  },
+  {
+    "id": 3,
+    "name": "Test User",
+    "email": "test@example.com",
+    "date": "2026-03-10",
+    "time": "09:00",
+    "people": 2,
+    "notes": "hello",
+    "createdAt": "2026-01-14T14:49:59.793Z"
+  },
+  {
+    "id": 4,
+    "name": "Samantha",
+    "email": "sam@gmail.com",
+    "date": "2026-01-15",
+    "time": "12:00",
+    "people": 2,
+    "notes": "",
+    "createdAt": "2026-01-14T14:50:47.400Z"
   }
 ]

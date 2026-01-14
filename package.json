@@ -5,7 +5,8 @@
   "private": true,
   "scripts": {
     "dev": "vite",
-    "start:server": "node server/index.js",
+  "start:server": "cd server && npm run dev",
+    "dev:all": "concurrently \"npm run start:server\" \"npm run dev\"",
     "build": "vite build",
     "preview": "vite preview"
   },
@@ -15,6 +16,7 @@
   },
   "devDependencies": {
     "vite": "^5.0.0",
-    "@vitejs/plugin-react": "^5.0.0"
+    "@vitejs/plugin-react": "^5.0.0",
+    "concurrently": "^8.0.0"
   }
 }
