@@ -7,6 +7,7 @@
     "dev": "vite",
   "start:server": "cd server && npm run dev",
     "dev:all": "concurrently \"npm run start:server\" \"npm run dev\"",
+  "lint": "eslint \"src/**/*.{js,jsx}\" \"server/**/*.js\" --ext .js,.jsx",
     "build": "vite build",
     "preview": "vite preview"
   },
@@ -17,6 +18,8 @@
   "devDependencies": {
     "vite": "^5.0.0",
     "@vitejs/plugin-react": "^5.0.0",
-    "concurrently": "^8.0.0"
+    "concurrently": "^8.0.0",
+    "eslint": "^8.50.0",
+    "eslint-plugin-react": "^7.32.2"
   }
 }
