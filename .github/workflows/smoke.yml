@@ -1,0 +1,43 @@
+name: Smoke Test
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  # Or trigger manually:
+  # workflow_dispatch: {}
+
+jobs:
+  smoke:
+    name: Backend smoke check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@v4
+
+      - name: Run health endpoint check
+        env:
+          RENDER_URL: ${{ secrets.RENDER_URL }}
+        run: |
+          set -euo pipefail
+          if [ -z "${RENDER_URL:-}" ]; then
+            echo "RENDER_URL secret is not set. Set RENDER_URL in repo secrets."
+            exit 1
+          fi
+          echo "Checking ${RENDER_URL}/api/health"
+          # retry loop for transient issues
+          attempts=0
+          max=5
+          until curl -fsS --retry 3 --retry-delay 2 "${RENDER_URL}/api/health" | grep -q '"status"[[:space:]]*:[[:space:]]*"ok"'; do
+            attempts=$((attempts+1))
+            echo "Attempt $attempts/$max failed. Retrying in 2s..."
+            sleep 2
+            if [ "$attempts" -ge "$max" ]; then
+              echo "Health check failed after $attempts attempts."
+              # show last curl output for debugging
+              curl -fsS "${RENDER_URL}/api/health" || true
+              exit 1
+            fi
+          done
+          echo "Health check passed."
