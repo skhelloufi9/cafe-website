@@ -1,0 +1,45 @@
+name: "Smoke test (demo: failing health check)"
+
+# Manual workflow to demo a failing smoke check against the deployed service.
+# It queries the health endpoint with ?fail=1 which triggers a 500 response from the server
+# (server has a demo-only toggle to return 500 when ?fail=1 or header x-simulate-fail:1 is used).
+
+on:
+  workflow_dispatch:
+
+jobs:
+  smoke-demo-fail:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run demo failing health check
+        env:
+          URL: ${{ secrets.RENDER_URL }}
+        run: |
+          set -euo pipefail
+          if [ -z "${URL:-}" ]; then
+            echo "ERROR: secrets.RENDER_URL is not set in this repository."
+            exit 2
+          fi
+
+          # Target the health endpoint with the demo fail query param
+          TARGET="${URL%/}/api/health?fail=1"
+          echo "Targeting: $TARGET"
+
+          attempts=5
+          n=1
+          while [ $n -le $attempts ]; do
+            echo "Attempt $n/$attempts"
+            # Expecting non-2xx: if curl succeeds (exit code 0) it's unexpected for this demo
+            if curl --fail -sS "$TARGET" -o /dev/null; then
+              echo "UNEXPECTED: health returned 2xx (demo expects a failure)."
+              exit 1
+            else
+              echo "Health check failed as expected on attempt $n"
+            fi
+            n=$((n+1))
+            sleep 1
+          done
+
+          echo "Demo complete: health check failed on all attempts (this causes the job to fail as intended)."
+          # Exit non-zero so the workflow run is marked as failed for demo purposes
+          exit 1

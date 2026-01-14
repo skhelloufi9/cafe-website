@@ -15,6 +15,15 @@ app.use(bodyParser.json())
 
 // health
 app.get('/api/health', (req, res) => {
+  // Demo-only failure toggle: use ?fail=1 or header 'x-simulate-fail: 1' to simulate a failing health check.
+  // This is safe for demos; remove or ignore in production.
+  const failQuery = String(req.query.fail || '').toLowerCase()
+  const failHeader = String(req.get('x-simulate-fail') || '').toLowerCase()
+  if (failQuery === '1' || failQuery === 'true' || failHeader === '1' || failHeader === 'true') {
+    // return a 500 to simulate an unhealthy service
+    return res.status(500).json({ status: 'error', message: 'simulated health failure (demo)' })
+  }
+
   res.json({ status: 'ok' })
 })
 
