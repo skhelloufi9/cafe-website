@@ -5,21 +5,22 @@
   "private": true,
   "scripts": {
     "dev": "vite",
-  "start:server": "cd server && npm run dev",
+    "start:server": "cd server && npm run dev",
     "dev:all": "concurrently \"npm run start:server\" \"npm run dev\"",
-  "lint": "eslint \"src/**/*.{js,jsx}\" \"server/**/*.js\" --ext .js,.jsx",
+    "lint": "eslint \"src/**/*.{js,jsx}\" \"server/**/*.js\" --ext .js,.jsx",
     "build": "vite build",
     "preview": "vite preview"
   },
   "dependencies": {
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.14.1"
   },
   "devDependencies": {
-    "vite": "^5.0.0",
     "@vitejs/plugin-react": "^5.0.0",
     "concurrently": "^8.0.0",
     "eslint": "^8.50.0",
-    "eslint-plugin-react": "^7.32.2"
+    "eslint-plugin-react": "^7.32.2",
+    "vite": "^8.0.10"
   }
 }
