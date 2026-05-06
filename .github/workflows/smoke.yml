@@ -2,9 +2,15 @@ name: Smoke Test
 
 on:
   push:
-    branches: [ main ]
+    # run on main and any feature branches matching features/*
+    branches:
+      - main
+      - 'features/*'
   pull_request:
-    branches: [ main ]
+    # include pull requests targeting main or coming from feature branches
+    branches:
+      - main
+      - 'features/*'
   # Or trigger manually:
   # workflow_dispatch: {}
 
