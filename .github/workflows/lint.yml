@@ -2,9 +2,15 @@ name: Lint
 
 on:
   pull_request:
-    branches: [ main ]
+    # run lint for PRs targeting main or from feature branches
+    branches:
+      - main
+      - 'features/*'
   push:
-    branches: [ main ]
+    # run lint on pushes to main and feature branches
+    branches:
+      - main
+      - 'features/*'
 
 jobs:
   eslint:
