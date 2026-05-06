@@ -3,7 +3,7 @@ import React from 'react'
 const items = [
   {id:1, name:'Flat White', desc:'Smooth espresso with steamed milk', price:'£2.90'},
   {id:2, name:'Cappuccino', desc:'Espresso, steamed milk & foam', price:'£3.00'},
-  {id:3, name:'Ice Latte', desc:'Cold espresso with ice and milk', price:'£3.00'},
+  {id:3, name:'Ice Latt', desc:'Cold espresso with ice and milk', price:'£3.00'},
   {id:4, name:'Blueberry Muffin', desc:'Freshly baked daily', price:'£2.20'},
 ]
 
